@@ -1,0 +1,18 @@
+{
+  "env": {
+    "node": true
+  },
+  "extends": ["xo", "plugin:jest/recommended", "plugin:jest/style", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["jest"],
+  "rules": {
+    "array-callback-return": "warn",
+    "capitalized-comments": "off",
+    "no-console": 1,
+    "padding-line-between-statements": "warn",
+    "no-unused-vars": "warn"
+  }
+}
