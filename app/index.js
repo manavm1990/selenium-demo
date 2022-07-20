@@ -1,13 +1,23 @@
-import { Builder, By, Key } from "selenium-webdriver";
+import inquirer from "inquirer";
 
-const searchString = "Automation testing with Selenium and JavaScript";
+const choice = await inquirer.prompt([
+  {
+    type: "list",
+    name: "action",
+    message: "Which test would you like to run?",
+    choices: ["1. Google Search with Selenium and JavaScript"],
+  },
+]);
 
-// Wait for the browser to get built and launched 🚀
-const driver = new Builder().forBrowser("chrome").build();
+switch (parseInt(choice.action, 10)) {
+  case 1: {
+    console.log("Running Google Search with Selenium and JavaScript");
 
-await driver.get("https://www.google.com");
+    const googleTest = await import("./test-google-search.js");
+    googleTest.default();
+    break;
+  }
 
-// 'Type' the search string into the search box ⌨️ (and press 'Enter')
-await driver.findElement(By.name("q")).sendKeys(searchString, Key.RETURN);
-
-driver.quit();
+  default:
+    console.error("Invalid choice");
+}
