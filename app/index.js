@@ -1,4 +1,3 @@
-import "chromedriver";
 import { Builder, By, Key } from "selenium-webdriver";
 
 const searchString = "Automation testing with Selenium and JavaScript";
