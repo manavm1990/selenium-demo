@@ -9,15 +9,11 @@ await driver.get("https://www.yahoo.com/");
 await driver.findElement(By.linkText("Sign in")).click();
 
 // Type in the username
-await driver.findElement(By.id("login-username")).sendKeys("tester");
+await driver.findElement(By.name("username")).sendKeys("tester");
 
 // If the 'Stay signed in' checkbox is checked, uncheck it
-if (
-  await driver.executeScript(
-    "return (document.querySelector('#persistent').checked)"
-  )
-) {
-  await driver.findElement(By.css("label:nth-child(2)")).click();
+if (await driver.findElement(By.name("persistent")).isSelected()) {
+  await driver.findElement(By.css("label[for='persistent']")).click();
 }
 
 driver.quit();
