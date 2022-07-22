@@ -16,7 +16,8 @@ async function runTestWithCapabilities(capabilities) {
 
   const inputField = await driver.findElement(By.name("q"));
 
-  await inputField.sendKeys("BrowserStack\n", Key.ENTER); // this submits on desktop browsers
+  // Using `Key.ENTER` instead of `\n` to avoid potential issues
+  await inputField.sendKeys("BrowserStack", Key.ENTER); // this submits on desktop browsers
 
   try {
     await driver.wait(until.titleMatches(/BrowserStack/i), 5000);
