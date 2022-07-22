@@ -16,11 +16,14 @@ async function runTestWithCapabilities(capabilities) {
 
   const inputField = await driver.findElement(By.name("q"));
 
-  await inputField.sendKeys("BrowserStack", Key.ENTER); // this submits on desktop browsers
+  await inputField.sendKeys("BrowserStack\n", Key.ENTER); // this submits on desktop browsers
+
   try {
     await driver.wait(until.titleMatches(/BrowserStack/i), 5000);
   } catch (e) {
     await inputField.submit(); // this helps in mobile browsers
+
+    console.error(e);
   }
 
   try {
@@ -35,6 +38,8 @@ async function runTestWithCapabilities(capabilities) {
     await driver.executeScript(
       'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "Page could not load in time"}}'
     );
+
+    console.error(e);
   }
 
   await driver.quit();
