@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { Builder, By, Key, until } from "selenium-webdriver";
+import capabilities from "./capabilities.js";
 
 dotenv.config();
 
@@ -54,38 +55,10 @@ async function runTestWithCapabilities(capabilities) {
   await driver.quit();
 }
 
-const capabilities1 = {
-  "bstack:options": {
-    os: "Windows",
-    osVersion: "11",
-    buildName: "browserstack-build-1",
-    sessionName: "Parallel test 1",
-  },
-  browserName: "chrome",
-  browserVersion: "103.0",
+export default () => {
+  Promise.allSettled(
+    capabilities.map((capability) => runTestWithCapabilities(capability))
+  ).then(() => {
+    console.log("All tests completed!");
+  });
 };
-
-const capabilities2 = {
-  "bstack:options": {
-    os: "Windows",
-    osVersion: "10",
-    buildName: "browserstack-build-1",
-    sessionName: "Parallel test 2",
-  },
-  browserName: "firefox",
-  browserVersion: "102.0",
-};
-
-const capabilities3 = {
-  "bstack:options": {
-    deviceName: "iPhone 12 Pro Max",
-    osVersion: "16 Beta",
-    buildName: "browserstack-build-1",
-    sessionName: "Parallel test 3",
-  },
-  browserName: "ios",
-};
-
-runTestWithCapabilities(capabilities1);
-runTestWithCapabilities(capabilities2);
-runTestWithCapabilities(capabilities3);

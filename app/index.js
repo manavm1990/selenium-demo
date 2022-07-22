@@ -8,6 +8,7 @@ const choice = await inquirer.prompt([
     choices: [
       "1. Google Search with Selenium and JavaScript",
       "2. Yahoo Sign In Link with Username and Checkbox",
+      "3. BrowserStack demo with DuckDuckGo",
     ],
   },
 ]);
@@ -26,6 +27,14 @@ switch (parseInt(choice.action, 10)) {
 
     const yahooTest = await import("./test-yahoo-login.js");
     yahooTest.default();
+    break;
+  }
+
+  case 3: {
+    console.info("🏃🏾‍♂️ BrowserStack demo with DuckDuckGo");
+
+    const browserstackTest = await import("./test-browserstack.js");
+    browserstackTest.default();
     break;
   }
 
