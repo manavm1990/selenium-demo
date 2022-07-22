@@ -12,6 +12,9 @@ async function runTestWithCapabilities(capabilities) {
     })
     .build();
 
+  // If we can't get to the title to match and we need to try again...
+  let tryAgain = false;
+
   await driver.get("http://www.duckduckgo.com");
 
   const inputField = await driver.findElement(By.name("q"));
@@ -21,16 +24,21 @@ async function runTestWithCapabilities(capabilities) {
 
   try {
     await driver.wait(until.titleMatches(/BrowserStack/i), 5000);
-  } catch (e) {
+  } catch {
+    // If we didn't make it, then let's try to submit another way
     await inputField.submit(); // this helps in mobile browsers
-
-    console.error(e);
+    tryAgain = true;
   }
 
   try {
-    await driver.wait(until.titleMatches(/BrowserStack/i), 5000);
+    if (tryAgain) {
+      console.info(`Failed to get title to match.
+      This might be some old mobile browser. Trying again...`);
 
-    console.info(await driver.getTitle());
+      await driver.wait(until.titleMatches(/BrowserStack/i), 5000);
+    }
+
+    console.info(`Got the expected title. ${await driver.getTitle()}`);
 
     await driver.executeScript(
       'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Title contains BrowserStack!"}}'
