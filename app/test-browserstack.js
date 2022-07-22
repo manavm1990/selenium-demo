@@ -1,10 +1,10 @@
-import webdriver from "selenium-webdriver";
 import dotenv from "dotenv";
+import { Builder, By, Key, until } from "selenium-webdriver";
 
 dotenv.config();
 
 async function runTestWithCapabilities(capabilities) {
-  const driver = new webdriver.Builder()
+  const driver = new Builder()
     .usingServer(process.env.BROWSERSTACK_SERVER_URL)
     .withCapabilities({
       ...capabilities,
@@ -14,17 +14,17 @@ async function runTestWithCapabilities(capabilities) {
 
   await driver.get("http://www.duckduckgo.com");
 
-  const inputField = await driver.findElement(webdriver.By.name("q"));
+  const inputField = await driver.findElement(By.name("q"));
 
-  await inputField.sendKeys("BrowserStack", webdriver.Key.ENTER); // this submits on desktop browsers
+  await inputField.sendKeys("BrowserStack", Key.ENTER); // this submits on desktop browsers
   try {
-    await driver.wait(webdriver.until.titleMatches(/BrowserStack/i), 5000);
+    await driver.wait(until.titleMatches(/BrowserStack/i), 5000);
   } catch (e) {
     await inputField.submit(); // this helps in mobile browsers
   }
 
   try {
-    await driver.wait(webdriver.until.titleMatches(/BrowserStack/i), 5000);
+    await driver.wait(until.titleMatches(/BrowserStack/i), 5000);
 
     console.info(await driver.getTitle());
 
